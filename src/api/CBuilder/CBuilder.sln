@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CBuilder.Api", "CBuilder.Api\CBuilder.Api.csproj", "{8E2FEC1C-CBC8-4033-AA25-5FFB47AA711C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CBuilder.Api", "CBuilder.Api\CBuilder.Api.csproj", "{8E2FEC1C-CBC8-4033-AA25-5FFB47AA711C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CBuilder.Roslyn", "CBuilder.Roslyn\CBuilder.Roslyn.csproj", "{5B8DCB8D-C831-4B66-902C-57847C5376E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CBuilder.MsBuild", "CBuilder.MsBuild\CBuilder.MsBuild.csproj", "{672DAFB9-A877-42C7-8FD5-987FE7D5F8E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{8E2FEC1C-CBC8-4033-AA25-5FFB47AA711C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E2FEC1C-CBC8-4033-AA25-5FFB47AA711C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E2FEC1C-CBC8-4033-AA25-5FFB47AA711C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B8DCB8D-C831-4B66-902C-57847C5376E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B8DCB8D-C831-4B66-902C-57847C5376E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B8DCB8D-C831-4B66-902C-57847C5376E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B8DCB8D-C831-4B66-902C-57847C5376E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{672DAFB9-A877-42C7-8FD5-987FE7D5F8E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{672DAFB9-A877-42C7-8FD5-987FE7D5F8E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{672DAFB9-A877-42C7-8FD5-987FE7D5F8E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{672DAFB9-A877-42C7-8FD5-987FE7D5F8E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
