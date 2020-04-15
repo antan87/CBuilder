@@ -1,11 +1,10 @@
 import React from 'react';
+import { IWorkspace } from '../contracts/interfaces/IWorkspace';
 
-export class FileReaderComponent extends React.Component {
+export class FileReaderComponent extends React.Component<IFileReaderComponentProps> {
 
-  private async onchange(e: any): Promise<void> {
-
+  public async onchange(e: any): Promise<void> {
     const path = escape(e.target.files[0].path);
-    debugger;
     const response = await fetch(`https://localhost:44354/workspaces?filePath=${path}`,
       {
         headers: {
@@ -15,20 +14,24 @@ export class FileReaderComponent extends React.Component {
         }
       });
 
-    debugger;
-    const json = await response.json();
-    console.log(json);
+    const workspace: IWorkspace = await response.json();
+    this.props.onWorkspaceLoaded(workspace);
   }
 
   render() {
     return (
       <div className="FileReaderComponent">
         <div>
-          <h2>Upload solution</h2>
+          <h3>Upload solution</h3>
           <input type="file" name="file" onChange={(e) => this.onchange(e)}></input>
         </div>
       </div>
     );
   }
 }
+
 export default FileReaderComponent;
+
+interface IFileReaderComponentProps {
+  onWorkspaceLoaded(workspace: IWorkspace): void;
+}

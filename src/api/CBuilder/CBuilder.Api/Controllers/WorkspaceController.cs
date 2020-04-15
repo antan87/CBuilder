@@ -1,5 +1,4 @@
 ﻿using CBuilder.Api.Models;
-using CBuilder.Api.Requests.Workspaces;
 using CBuilder.MsBuild;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
@@ -23,7 +22,7 @@ namespace CBuilder.Api.Controllers
             using var msBuildWorkspace = new MSBuildWorkspaceFactory().GetWorkspace();
 
             Solution solution = await msBuildWorkspace.OpenSolutionAsync(filePath);
-            IEnumerable<ProjectModel> projectModels = solution.Projects.Select(project => new ProjectModel(project.Name));
+            IEnumerable<ProjectModel> projectModels = solution.Projects.Select(project => new ProjectModel(project.Id.Id, project.Name));
             var solutionModel = new SolutionModel(projectModels);
             var workspaceModel = new WorkspaceModel(solutionModel);
 
