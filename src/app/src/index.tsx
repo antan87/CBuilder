@@ -1,13 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Route, Switch, HashRouter } from 'react-router-dom';
+import App from "./App";
+import ProjectDetailComponent from "./components/ProjectDetailComponent";
+import * as serviceWorker from "./serviceWorker";
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <HashRouter basename="*">
+      <div>
+        <Switch>
+          <Route path="/projects/:id" component={ProjectDetailComponent} />
+          <Route path="/" exact component={App} />
+        </Switch>
+      </div>
+    </HashRouter>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

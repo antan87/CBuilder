@@ -1,10 +1,9 @@
-import React from 'react';
-import FileReaderComponent from './components/FileReaderComponent';
-import { IWorkspace } from './contracts/interfaces/IWorkspace';
-import ProjectListComponent from './components/ProjectListComponent';
+import React from "react";
+import FileReaderComponent from "./components/FileReaderComponent";
+import ProjectListComponent from "./components/ProjectListComponent";
+import { IWorkspace } from "./contracts/interfaces/IWorkspace";
 
 export class App extends React.Component<IAppProps, IAppState> {
-
 
   constructor(props: any) {
     super(props);
@@ -12,12 +11,7 @@ export class App extends React.Component<IAppProps, IAppState> {
     this.onWorkspaceLoaded = this.onWorkspaceLoaded.bind(this);
   }
 
-
-  private onWorkspaceLoaded(workspace: IWorkspace): void {
-    this.setState({ workspaceModel: workspace });
-  }
-
-  render() {
+  public render() {
     if (!!this.state && !this.state.workspaceModel) {
       return (
         <div className="App">
@@ -34,14 +28,17 @@ export class App extends React.Component<IAppProps, IAppState> {
       );
     }
   }
+
+  private onWorkspaceLoaded(workspace: IWorkspace): void {
+    this.setState({ workspaceModel: workspace });
+  }
 }
 export default App;
 
 interface IAppProps {
-  //code related to your props goes here
+  // code related to your props goes here
 }
 
 interface IAppState {
-  workspaceModel: any
+  workspaceModel: any;
 }
-
