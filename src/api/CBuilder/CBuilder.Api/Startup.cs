@@ -1,3 +1,4 @@
+using CBuilder.Api.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -31,6 +32,12 @@ namespace CBuilder.Api
                       });
             });
 
+            services.AddSingleton((provider) =>
+            {
+                var instance = new Repository();
+                instance.RegisterCollection<WorkspaceEntityCollection>();
+                return instance;
+            });
             services.AddControllers();
         }
 

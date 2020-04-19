@@ -1,24 +1,26 @@
-import React from 'react';
-import { IWorkspace } from '../contracts/interfaces/IWorkspace';
+import React from "react";
+import { IWorkspace } from "../contracts/interfaces/IWorkspace";
+import { ApiManager } from "../managers/ApiManager";
 
 export class FileReaderComponent extends React.Component<IFileReaderComponentProps> {
 
   public async onchange(e: any): Promise<void> {
-    const path = escape(e.target.files[0].path);
-    const response = await fetch(`https://localhost:44354/workspaces?filePath=${path}`,
-      {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET',
-          'Access-Control-Allow-Headers': 'application/json',
-        }
-      });
+    const path = e.target.files[0].path;
 
-    const workspace: IWorkspace = await response.json();
+    const createWorkspaceRequest = { filePath: path };
+    const api = ApiManager.getInstance();
+
+    const body = JSON.stringify(createWorkspaceRequest);
+    const createResponse = await api.post(`workspaces`, body);
+
+    const id = await createResponse.json();
+    const getResponse = await api.get(`workspaces?id=${id}`);
+
+    const workspace: IWorkspace = await getResponse.json();
     this.props.onWorkspaceLoaded(workspace);
   }
 
-  render() {
+  public render() {
     return (
       <div className="FileReaderComponent">
         <div>

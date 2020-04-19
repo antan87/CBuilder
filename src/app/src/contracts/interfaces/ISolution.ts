@@ -1,5 +1,5 @@
-import { IProject } from "./iProject";
+import { IProject } from "./IProject";
 
 export interface ISolution {
-    projects: IProject[]
+    projects: IProject[];
 }
