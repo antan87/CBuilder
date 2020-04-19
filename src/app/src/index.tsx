@@ -1,16 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { HashRouter, Route } from "react-router-dom";
+import { Route, Switch, HashRouter } from 'react-router-dom';
 import App from "./App";
 import ProjectDetailComponent from "./components/ProjectDetailComponent";
 import * as serviceWorker from "./serviceWorker";
 
+
 ReactDOM.render(
   <React.StrictMode>
-    <HashRouter>
+    <HashRouter basename="*">
       <div>
-        <Route path="/" component={App} />
-        <Route path="/project/:id" component={ProjectDetailComponent} />
+        <Switch>
+          <Route path="/projects/:id" component={ProjectDetailComponent} />
+          <Route path="/" exact component={App} />
+        </Switch>
       </div>
     </HashRouter>
   </React.StrictMode>,
