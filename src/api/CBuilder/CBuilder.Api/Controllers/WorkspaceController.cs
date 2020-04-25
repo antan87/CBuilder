@@ -24,6 +24,22 @@ namespace CBuilder.Api.Controllers
         }
 
         [HttpGet]
+        public async Task<ActionResult> Get()
+        {
+            var collection = this._repository.GetCollection<WorkspaceEntityCollection>();
+            var workspaces = collection.GetEntities().Select(workspace =>
+            {
+                IEnumerable<ProjectModel> projectModels = workspace.Solution.Projects.Select(project => new ProjectModel(project.Id.Id, project.Name));
+                var solutionModel = new SolutionModel(workspace.Solution.Id.Id, workspace.Solution.ToString(), projectModels);
+                var workspaceModel = new WorkspaceModel(solutionModel);
+
+                return workspaceModel;
+            }).ToList();
+
+            return await Task.FromResult(Ok(workspaces));
+        }
+
+        [HttpGet("{id}")]
         public async Task<ActionResult> Get(Guid id)
         {
             var collection = this._repository.GetCollection<WorkspaceEntityCollection>();
@@ -32,7 +48,7 @@ namespace CBuilder.Api.Controllers
                 return await Task.FromResult(NotFound());
 
             IEnumerable<ProjectModel> projectModels = workspace.Solution.Projects.Select(project => new ProjectModel(project.Id.Id, project.Name));
-            var solutionModel = new SolutionModel(projectModels);
+            var solutionModel = new SolutionModel(workspace.Solution.Id.Id, workspace.Solution.ToString(), projectModels);
             var workspaceModel = new WorkspaceModel(solutionModel);
 
             return await Task.FromResult(Ok(workspaceModel));
@@ -48,9 +64,7 @@ namespace CBuilder.Api.Controllers
             entity.Path = request.FilePath;
             entity.Solution = solution;
 
-            var uri = Url.Link(string.Empty, new { id = solution.Id.Id });
-
-            return Created(uri, solution.Id.Id);
+            return Ok(solution.Id.Id);
         }
     }
 }

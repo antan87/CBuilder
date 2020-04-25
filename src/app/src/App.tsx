@@ -1,38 +1,18 @@
 import React from "react";
-import FileReaderComponent from "./components/FileReaderComponent";
-import ProjectListComponent from "./components/ProjectListComponent";
-import { IWorkspace } from "./contracts/interfaces/IWorkspace";
+import SolutionListComponent from "./components/SolutionListComponent";
 
 export class App extends React.Component<IAppProps, IAppState> {
 
-  constructor(props: any) {
-    super(props);
-    this.state = { workspaceModel: null };
-    this.onWorkspaceLoaded = this.onWorkspaceLoaded.bind(this);
-  }
-
   public render() {
-    if (!!this.state && !this.state.workspaceModel) {
-      return (
-        <div className="App">
-          <h1>CBuilder</h1>
-          <FileReaderComponent onWorkspaceLoaded={this.onWorkspaceLoaded}></FileReaderComponent>
-        </div>
-      );
-    } else {
-      return (
-        <div className="App">
-          <h1>CBuilder</h1>
-          <ProjectListComponent workspace={this.state.workspaceModel}></ProjectListComponent>
-        </div>
-      );
-    }
-  }
-
-  private onWorkspaceLoaded(workspace: IWorkspace): void {
-    this.setState({ workspaceModel: workspace });
+    return (
+      <div className="App">
+        <h1>CBuilder</h1>
+        <SolutionListComponent></SolutionListComponent>
+      </div>
+    );
   }
 }
+
 export default App;
 
 interface IAppProps {
@@ -40,5 +20,4 @@ interface IAppProps {
 }
 
 interface IAppState {
-  workspaceModel: any;
 }

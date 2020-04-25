@@ -13,18 +13,22 @@ export class ApiManager {
     public async get(url: string): Promise<Response> {
         return await fetch(`${this.baseUrl}/${url}`,
             {
+                method: "GET",
                 headers: {
+                    "Access-Control-Allow-Origin": "https://localhost:44354",
+                    "Accept": "application/json",
                     "Content-Type": "application/json",
-                }, method: "get",
+                }
             });
     }
 
     public async post(url: string, body: string): Promise<Response> {
         return await fetch(`${this.baseUrl}/${url}`, {
+            method: "POST",
             headers: {
+                "Accept": "application/json",
                 "Content-Type": "application/json",
-            }, method: "post",
-
+            },
             body,
         });
     }

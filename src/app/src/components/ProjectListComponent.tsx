@@ -1,9 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { IProject } from "../contracts/interfaces/IProject";
-import { IWorkspace } from "../contracts/interfaces/IWorkspace";
+import ApiManager from "../managers/ApiManager";
 
-export class ProjectListComponent extends React.Component<IProjectListComponentProps> {
+export class ProjectListComponent extends React.Component<IProjectListComponentProps, IProjectListComponentState> {
+
+    constructor(props: IProjectListComponentProps) {
+        super(props);
+        this.state = { projects: [] };
+    }
+
+    public async componentDidMount(): Promise<void> {
+        const api = ApiManager.getInstance();
+        const getResponse = await api.get(`workspaces/${this.props.solutionId}/projects`);
+        const projects = await getResponse.json();
+
+        this.setState({ projects });
+    }
+
 
     public render() {
         return (
@@ -11,9 +25,9 @@ export class ProjectListComponent extends React.Component<IProjectListComponentP
                 <div>
                     <h3>Projects</h3>
                     <ul>
-                        {this.props.workspace.solution.projects.map((project: IProject) => {
+                        {this.state.projects.map((project: IProject) => {
                             return <li key={project.id}>
-                                <Link to={`/projects/${project.id}`} replace>{project.name}</Link>
+                                <Link to={`/workspaces/${this.props.solutionId}/projects/${project.id}`} replace>{project.name}</Link>
                             </li>;
                         })}
                     </ul>
@@ -26,5 +40,10 @@ export class ProjectListComponent extends React.Component<IProjectListComponentP
 export default ProjectListComponent;
 
 interface IProjectListComponentProps {
-    workspace: IWorkspace;
+    solutionId: string;
 }
+
+interface IProjectListComponentState {
+    projects: IProject[];
+}
+
