@@ -1,14 +1,20 @@
+import DocumentListComponent from "./DocumentListComponent";
 import React from "react";
-import { Link } from "react-router-dom";
 
 export class ProjectDetailComponent extends React.Component<any> {
 
     public render() {
-        console.log(this.props);
         return (
-            <div className="Project overview">
-                <h1>Test</h1>
-                <Link to={"/"} replace>Home</Link>
+            <div>
+                <div className="Project overview">
+                    <div>
+                        <h1>Project overview</h1>
+                        <div>
+                            <DocumentListComponent solutionId={this.props.match.params.solutionId} projectId={this.props.match.params.id}></DocumentListComponent>
+                        </div>
+                    </div>
+                </div>
+                <h4>{window.location.href}</h4>
             </div>
         );
     }
