@@ -1,7 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { IProject } from "../contracts/interfaces/IProject";
 import ApiManager from "../managers/ApiManager";
+import { Container, Row, Col, ListGroup, ListGroupItem, NavLink } from 'react-bootstrap';
+import { IProject } from "../contracts/interfaces/IProject";
 
 export class ProjectListComponent extends React.Component<IProjectListComponentProps, IProjectListComponentState> {
 
@@ -21,18 +21,20 @@ export class ProjectListComponent extends React.Component<IProjectListComponentP
 
     public render() {
         return (
-            <div className="ProjectListComponent">
-                <div>
-                    <h3>Projects</h3>
-                    <ul>
-                        {this.state.projects.map((project: IProject) => {
-                            return <li key={project.id}>
-                                <Link to={`/workspaces/${this.props.solutionId}/projects/${project.id}`} replace>{project.name}</Link>
-                            </li>;
-                        })}
-                    </ul>
-                </div>
-            </div >
+            <Container>
+                <h2>Projects</h2>
+                <Row>
+                    <Col>
+                        <ListGroup>
+                            {this.state.projects.map((project: IProject) => {
+                                return <ListGroupItem key={project.id}>
+                                    <NavLink href={`#/workspaces/${this.props.solutionId}/projects/${project.id}`}>{project.name}</NavLink>
+                                </ListGroupItem>;
+                            })}
+                        </ListGroup>
+                    </Col>
+                </Row>
+            </Container >
         );
     }
 }

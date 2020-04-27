@@ -1,7 +1,7 @@
 import React from "react";
 import { IWorkspace } from "../contracts/interfaces/IWorkspace";
 import ApiManager from "../managers/ApiManager";
-import { Link } from "react-router-dom";
+import { Container, Row, Col, ListGroup, ListGroupItem, NavLink } from 'react-bootstrap';
 
 export class SolutionListComponent extends React.Component<ISolutionListComponentProps, ISolutionListComponentState> {
 
@@ -19,18 +19,20 @@ export class SolutionListComponent extends React.Component<ISolutionListComponen
 
     public render() {
         return (
-            <div className="SolutionListComponent">
-                <div>
-                    <h3>Solutions</h3>
-                    <ul>
-                        {this.state.solutions.map((workspace: IWorkspace) => {
-                            return <li key={workspace.solution.id}>
-                                <Link to={`/solutions/${workspace.solution.id}`} replace>{workspace.solution.name}</Link>
-                            </li>;
-                        })}
-                    </ul>
-                </div>
-            </div >
+            <Container>
+                <h2>Solutions</h2>
+                <Row>
+                    <Col>
+                        <ListGroup>
+                            {this.state.solutions.map((workspace: IWorkspace) => {
+                                return <ListGroupItem key={workspace.solution.id}>
+                                    <NavLink href={`#/solutions/${workspace.solution.id}`}>{workspace.solution.name}</NavLink>
+                                </ListGroupItem>;
+                            })}
+                        </ListGroup>
+                    </Col>
+                </Row>
+            </Container >
         );
     }
 }

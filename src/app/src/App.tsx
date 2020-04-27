@@ -6,7 +6,6 @@ export class App extends React.Component<IAppProps, IAppState> {
   public render() {
     return (
       <div className="App">
-        <h1>CBuilder</h1>
         <SolutionListComponent></SolutionListComponent>
       </div>
     );

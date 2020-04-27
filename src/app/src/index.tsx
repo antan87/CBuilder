@@ -8,7 +8,6 @@ import NavigationComponent from "./components/NavigationComponent";
 import LoadSolutionComponent from "./components/LoadSolutionComponent";
 import { SolutionDetailComponent } from "./components/SolutionDetailComponent";
 
-
 ReactDOM.render(
   <React.StrictMode>
     <HashRouter >

@@ -1,21 +1,18 @@
 import DocumentListComponent from "./DocumentListComponent";
 import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
 
 export class ProjectDetailComponent extends React.Component<any> {
 
     public render() {
         return (
-            <div>
-                <div className="Project overview">
-                    <div>
-                        <h1>Project overview</h1>
-                        <div>
-                            <DocumentListComponent solutionId={this.props.match.params.solutionId} projectId={this.props.match.params.id}></DocumentListComponent>
-                        </div>
-                    </div>
-                </div>
-                <h4>{window.location.href}</h4>
-            </div>
+            <Container>
+                <Row>
+                    <Col>
+                        <DocumentListComponent solutionId={this.props.match.params.solutionId} projectId={this.props.match.params.id}></DocumentListComponent>
+                    </Col>
+                </Row>
+            </Container >
         );
     }
 }
