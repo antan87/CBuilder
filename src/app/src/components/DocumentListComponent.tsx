@@ -1,6 +1,7 @@
 import React from 'react';
 import { IDocument } from "../contracts/interfaces/IDocument";
 import ApiManager from "../managers/ApiManager";
+import { Container, Row, Col, Accordion, Card, Button } from 'react-bootstrap';
 
 export class DocumentListComponent extends React.Component<IDocumentListComponentProps, IDocumentListComponentState> {
 
@@ -20,18 +21,32 @@ export class DocumentListComponent extends React.Component<IDocumentListComponen
 
     public render() {
         return (
-            <div className="DocumentListComponent">
-                <div>
-                    <h3>Documents</h3>
-                    <ul>
-                        {this.state.documents.map((document: IDocument) => {
-                            return <li key={document.id}>
-                                <h3>{document.name}</h3>
-                            </li>;
-                        })}
-                    </ul>
-                </div>
-            </div >
+            <Container>
+                <h2>Documents</h2>
+                <Row>
+                    <Col>
+                        <Accordion defaultActiveKey="0">
+                            {
+                                this.state.documents.map((document: IDocument) => {
+                                    return <Card key={document.id}>
+                                        <Card.Header>
+                                            <Accordion.Toggle as={Button} variant="link" eventKey={document.id}>
+                                                {document.name}
+                                            </Accordion.Toggle>
+                                        </Card.Header>
+                                        <Accordion.Collapse eventKey={document.id}>
+                                            <Card.Body>
+                                                {document.content.split('\n').map((item, index2) => {
+                                                    return <span key={document.id + index2}>{item}< br key={document.id + index2} /></span>
+                                                })}
+                                            </Card.Body>
+                                        </Accordion.Collapse>
+                                    </Card>
+                                })}
+                        </Accordion>
+                    </Col>
+                </Row>
+            </Container >
         );
     }
 }

@@ -1,16 +1,18 @@
 import ProjectListComponent from "./ProjectListComponent";
 import React from "react";
+import { Container, Row, Col } from 'react-bootstrap';
 
 export class SolutionDetailComponent extends React.Component<any> {
 
     public render() {
         return (
-            <div>
-                <div className="Solution overview">
-                    <h1>Solution overview</h1>
-                    <ProjectListComponent solutionId={this.props.match.params.id}></ProjectListComponent>
-                </div>
-            </div>
+            <Container>
+                <Row>
+                    <Col>
+                        <ProjectListComponent solutionId={this.props.match.params.id}></ProjectListComponent>
+                    </Col>
+                </Row>
+            </Container >
         );
     }
 }

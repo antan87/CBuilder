@@ -27,10 +27,11 @@ namespace CBuilder.Api.Controllers
         public async Task<ActionResult> Get()
         {
             var collection = this._repository.GetCollection<WorkspaceEntityCollection>();
-            var workspaces = collection.GetEntities().Select(workspace =>
+            var workspaces = collection.GetEntities().Where(workspace => workspace.Solution != null)
+                .Select(workspace =>
             {
                 IEnumerable<ProjectModel> projectModels = workspace.Solution.Projects.Select(project => new ProjectModel(project.Id.Id, project.Name));
-                var solutionModel = new SolutionModel(workspace.Solution.Id.Id, workspace.Solution.ToString(), projectModels);
+                var solutionModel = new SolutionModel(workspace.Solution.Id.Id, workspace.Solution.FilePath, projectModels);
                 var workspaceModel = new WorkspaceModel(solutionModel);
 
                 return workspaceModel;
@@ -43,12 +44,15 @@ namespace CBuilder.Api.Controllers
         public async Task<ActionResult> Get(Guid id)
         {
             var collection = this._repository.GetCollection<WorkspaceEntityCollection>();
-            WorkspaceEntity? workspace = collection.Query((entity) => entity.Solution.Id.Id == id).FirstOrDefault();
+            WorkspaceEntity? workspace = collection.Query((entity) => entity.Solution?.Id.Id == id).FirstOrDefault();
             if (workspace == null)
                 return await Task.FromResult(NotFound());
 
+            if (workspace.Solution == null || string.IsNullOrWhiteSpace(workspace.Solution.FilePath))
+                return await Task.FromResult(NotFound("Solution is null"));
+
             IEnumerable<ProjectModel> projectModels = workspace.Solution.Projects.Select(project => new ProjectModel(project.Id.Id, project.Name));
-            var solutionModel = new SolutionModel(workspace.Solution.Id.Id, workspace.Solution.ToString(), projectModels);
+            var solutionModel = new SolutionModel(workspace.Solution.Id.Id, workspace.Solution.FilePath, projectModels);
             var workspaceModel = new WorkspaceModel(solutionModel);
 
             return await Task.FromResult(Ok(workspaceModel));

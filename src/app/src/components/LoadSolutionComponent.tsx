@@ -1,47 +1,72 @@
 import { ApiManager } from "../managers/ApiManager";
 import React from "react";
+import { Container, Row, Col, Spinner } from "react-bootstrap";
 
 export class LoadSolutionComponent extends React.Component<ILoadSolutionComponentProps, ILoadSolutionComponentState> {
 
   constructor(props: ILoadSolutionComponentProps) {
     super(props);
-    this.state = { solutionLoaded: false };
+    this.state = { path: '', isLoading: false, solutionLoadedText: '' };
   }
 
   public async onchange(e: any): Promise<void> {
+
     const path = e.target.files[0].path;
 
+    this.setState({ path, isLoading: true });
     const createWorkspaceRequest = { filePath: path };
     const api = ApiManager.getInstance();
 
     const body = JSON.stringify(createWorkspaceRequest);
-    const createResponse = await api.post(`workspaces`, body);
-
-    if (createResponse.ok) {
-      this.setState({ solutionLoaded: true });
+    const response = await api.post(`workspaces`, body);
+    this.setState({ isLoading: false });
+    if (response.ok) {
+      this.setState({ solutionLoadedText: 'Solution loaded successfully!' });
+    } else {
+      this.setState({ solutionLoadedText: 'Solution could not be loaded please try again!' });
     }
-
-    // const id = await createResponse.json();
-    // const getResponse = await api.get(`workspaces/${id}`);
-
-    // const workspace: IWorkspace = await getResponse.json();
   }
 
 
   public render() {
-    let loadingText = '';
-
-    if (this.state.solutionLoaded) {
-      loadingText = 'Solution loaded!'
-    }
     return (
-      <div className="FileReaderComponent">
-        <div>
-          <h3>Upload solution</h3>
-          <input type="file" name="file" onChange={(e) => this.onchange(e)}></input>
-        </div>
-        <h2>{loadingText}</h2>
-      </div>
+      <Container>
+        <h2>Upload solution</h2>
+        <Row>
+          <Col>
+            <div className="input-group mb-3">
+              <div className="input-group-prepend">
+                <span className="input-group-text" id="inputGroupFileAddon01">Upload</span>
+              </div>
+              <div className="custom-file">
+                <input type="file" className="custom-file-input" onChange={(e) => this.onchange(e)} id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" />
+                <label className="custom-file-label" htmlFor="inputGroupFile01">{this.state.path}</label>
+              </div>
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+          </Col>
+          <Col xs={2.5}>
+            {this.state.isLoading ?
+              <Spinner animation="border" role="status">
+                <span className="sr-only">Loading...</span>
+              </Spinner> : null}
+          </Col>
+          <Col>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+          </Col>
+          <Col xs={2.5}>
+            <h2>{this.state.solutionLoadedText}</h2>
+          </Col>
+          <Col>
+          </Col>
+        </Row>
+      </Container >
     );
   }
 }
@@ -49,7 +74,9 @@ export class LoadSolutionComponent extends React.Component<ILoadSolutionComponen
 export default LoadSolutionComponent;
 
 interface ILoadSolutionComponentState {
-  solutionLoaded: boolean;
+  path: string;
+  isLoading: boolean;
+  solutionLoadedText: string;
 }
 
 interface ILoadSolutionComponentProps {
