@@ -1,7 +1,7 @@
 import React from "react";
-import ApiManager from "../managers/ApiManager";
-import { Container, Row, Col, ListGroup, ListGroupItem, NavLink } from 'react-bootstrap';
+import { Col, Container, ListGroup, ListGroupItem, NavLink, Row } from "react-bootstrap";
 import { IProject } from "../contracts/interfaces/IProject";
+import ApiManager from "../managers/ApiManager";
 
 export class ProjectListComponent extends React.Component<IProjectListComponentProps, IProjectListComponentState> {
 
@@ -48,4 +48,3 @@ interface IProjectListComponentProps {
 interface IProjectListComponentState {
     projects: IProject[];
 }
-

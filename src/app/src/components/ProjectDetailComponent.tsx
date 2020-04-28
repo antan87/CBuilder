@@ -1,6 +1,6 @@
-import DocumentListComponent from "./DocumentListComponent";
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
+import DocumentListComponent from "./DocumentListComponent";
 
 export class ProjectDetailComponent extends React.Component<any> {
 

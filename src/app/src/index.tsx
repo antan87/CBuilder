@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Route, Switch, HashRouter } from 'react-router-dom';
+import { HashRouter, Route, Switch } from "react-router-dom";
 import App from "./App";
-import ProjectDetailComponent from "./components/ProjectDetailComponent";
-import * as serviceWorker from "./serviceWorker";
-import NavigationComponent from "./components/NavigationComponent";
 import LoadSolutionComponent from "./components/LoadSolutionComponent";
+import NavigationComponent from "./components/NavigationComponent";
+import ProjectDetailComponent from "./components/ProjectDetailComponent";
 import { SolutionDetailComponent } from "./components/SolutionDetailComponent";
+import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -24,7 +24,7 @@ ReactDOM.render(
       </div>
     </HashRouter>
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById("root"),
 );
 
 // If you want your app to work offline and load faster, you can change
