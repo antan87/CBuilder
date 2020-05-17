@@ -1,7 +1,7 @@
 import React from "react";
 import { IDocument } from "../contracts/interfaces/IDocument";
 import ApiManager from "../managers/ApiManager";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Form, FormControl, Button, Nav } from "react-bootstrap";
 import { getTree } from "../helpers/DocumentHelper";
 import { ITree } from "../view-models/tree-view/interfaces/ITree";
 import { ITreeNode2 } from "../view-models/tree-view/interfaces/ITreeNode2";
@@ -10,7 +10,7 @@ export class DocumentListComponent extends React.Component<IDocumentListComponen
 
     constructor(props: IDocumentListComponentProps) {
         super(props);
-        this.state = { documents: [], tree: { nodes: [] } };
+        this.state = { documents: [], tree: { nodes: [] }, currentText: '' };
     }
 
     public async componentDidMount(): Promise<void> {
@@ -23,37 +23,30 @@ export class DocumentListComponent extends React.Component<IDocumentListComponen
         this.setState({ documents, tree });
     }
 
-
-
-
-
     public render() {
         return (
-            <Container>
-                <h2>Documents</h2>
+            <Container className="document-list">
                 <Row>
                     <Col>
-                        <nav id="navbar-example3" className="navbar navbar-light bg-light">
-                            {this.renderTreeNodes(this.state.tree.nodes, 2)}
-                        </nav>
+                        <h2>Documents</h2>
                     </Col>
-                    <Col>
-                        {/* <div data-spy="scroll" data-target="#navbar-example3" data-offset="0">
-                            <h4 id="item-1">Item 1</h4>
-                            <p>...</p>
-                            <h5 id="item-1-1">Item 1-1</h5>
-                            <p>...</p>
-                            <h5 id="item-1-2">Item 1-2</h5>
-                            <p>...</p>
-                            <h4 id="item-2">Item 2</h4>
-                            <p>...</p>
-                            <h4 id="item-3">Item 3</h4>
-                            <p>...</p>
-                            <h5 id="item-3-1">Item 3-1</h5>
-                            <p>...</p>
-                            <h5 id="item-3-2">Item 3-2</h5>
-                            <p>...</p>
-                        </div> */}
+                </Row>
+                <Row>
+                    <Col >
+                        <Nav id="navbar-example3" className="navbar navbar-light ">
+                            {this.renderTreeNodes(this.state.tree.nodes, 2)}
+                        </Nav>
+                    </Col>
+                    <Col >
+                        <Form>
+                            <FormControl
+                                readOnly
+                                type="text"
+                                rows={this.state.currentText.split(/\r\n|\r|\n/).length}
+                                placeholder={this.state.currentText}
+                                as="textarea" />
+                        </Form>
+
                     </Col>
                 </Row>
             </Container >
@@ -65,24 +58,36 @@ export class DocumentListComponent extends React.Component<IDocumentListComponen
             return [];
         }
 
-        return <nav className="nav nav-pills flex-column">
+        return <Nav className="nav nav-pills flex-column" key={nodes[0].id} >
             {nodes.map((item, index) =>
                 this.renderTreeNode(item, spacing)
             )}
-        </nav>
+        </Nav>
+
+    }
+
+    private onTreeItemClicked(id: string) {
+        const foundDocument = this.state.documents.find(item => item.id === id);
+        if (!foundDocument) {
+            this.setState({ documents: this.state.documents, tree: this.state.tree, currentText: '' });
+            return;
+        }
+        const currentText = foundDocument.content;
+        this.setState({ documents: this.state.documents, tree: this.state.tree, currentText: currentText });
 
     }
 
     private renderTreeNode(node: ITreeNode2, spacing: number): any {
-        const ss = [];
-        ss.push(<a key={node.id} className={`nav-link ml-${spacing.toString()} my-1`} href="#item - 1" > {node.name}</a >);
-        console.log(spacing);
+        const elements = [];
+        // ss.push(<a key={node.id} className={`nav-link ml-${spacing.toString()} my-1`} onClick={() => this.onTreeItemClicked(node.id)}> {node.name}</a >);
+        elements.push(<Button key={node.id} className={`nav-link ml-${spacing.toString()} my-1`} onClick={() => this.onTreeItemClicked(node.id)}> {node.name}</Button >);
+
         if (!!node.childs) {
             spacing += 1;
-            ss.push(this.renderTreeNodes(node.childs, spacing));
+            elements.push(this.renderTreeNodes(node.childs, spacing));
         }
 
-        return ss;
+        return elements;
     }
 
 }
@@ -96,6 +101,7 @@ interface IDocumentListComponentProps {
 
 interface IDocumentListComponentState {
     documents: IDocument[];
-    tree: ITree
+    tree: ITree,
+    currentText: string
 }
 

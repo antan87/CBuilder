@@ -12,7 +12,6 @@ export class NavigationComponent extends React.Component<any> {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            <Nav.Link href="#/">Home</Nav.Link>
                             <Nav.Link href="#/loadsolution">Load solution</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
