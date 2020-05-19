@@ -42,7 +42,6 @@ export default SolutionListComponent;
 interface ISolutionListComponentProps {
 }
 
-
 interface ISolutionListComponentState {
     solutions: IWorkspace[];
 }
