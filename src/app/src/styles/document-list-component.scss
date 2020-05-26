@@ -1,10 +1,14 @@
 .document-list{
-  Nav {
+    max-width: 100%;
+
+    .tree-box {
+    }
+
+    Nav {
     background-color: Transparent;
   }
   
     Button {
-
         .nav-link {
             display: block;
             padding: .5rem 1rem;

@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Container, ListGroup, ListGroupItem, NavLink, Row } from "react-bootstrap";
+import { ListGroup, ListGroupItem, NavLink } from "react-bootstrap";
 import { IProject } from "../contracts/interfaces/IProject";
 import ApiManager from "../managers/ApiManager";
 
@@ -21,10 +21,10 @@ export class ProjectListComponent extends React.Component<IProjectListComponentP
 
     public render() {
         return (
-            <Container>
+            <div className="container-fluid">
                 <h2>Projects</h2>
-                <Row>
-                    <Col>
+                <div className="row">
+                    <div className="col">
                         <ListGroup>
                             {this.state.projects.map((project: IProject) => {
                                 return <ListGroupItem key={project.id}>
@@ -32,9 +32,9 @@ export class ProjectListComponent extends React.Component<IProjectListComponentP
                                 </ListGroupItem>;
                             })}
                         </ListGroup>
-                    </Col>
-                </Row>
-            </Container >
+                    </div>
+                </div>
+            </div >
         );
     }
 }

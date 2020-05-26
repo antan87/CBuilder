@@ -1,6 +1,6 @@
 import { ApiManager } from "../managers/ApiManager";
 import React from "react";
-import { Container, Row, Col, Spinner } from "react-bootstrap";
+import { Col, Spinner } from "react-bootstrap";
 
 export class LoadSolutionComponent extends React.Component<ILoadSolutionComponentProps, ILoadSolutionComponentState> {
 
@@ -30,10 +30,10 @@ export class LoadSolutionComponent extends React.Component<ILoadSolutionComponen
 
   public render() {
     return (
-      <Container>
+      <div className="container-fluid">
         <h2>Upload solution</h2>
-        <Row>
-          <Col>
+        <div className="row">
+          <div className="col">
             <div className="input-group mb-3">
               <div className="input-group-prepend">
                 <span className="input-group-text" id="inputGroupFileAddon01">Upload</span>
@@ -43,30 +43,30 @@ export class LoadSolutionComponent extends React.Component<ILoadSolutionComponen
                 <label className="custom-file-label" htmlFor="inputGroupFile01">{this.state.path}</label>
               </div>
             </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-          </Col>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+          </div>
           <Col xs={2.5}>
             {this.state.isLoading ?
               <Spinner animation="border" role="status">
                 <span className="sr-only">Loading...</span>
               </Spinner> : null}
           </Col>
-          <Col>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-          </Col>
+          <div className="col">
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+          </div>
           <Col xs={2.5}>
             <h2>{this.state.solutionLoadedText}</h2>
           </Col>
-          <Col>
-          </Col>
-        </Row>
-      </Container >
+          <div className="col">
+          </div>
+        </div>
+      </div >
     );
   }
 }
