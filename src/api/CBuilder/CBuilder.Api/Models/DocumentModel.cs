@@ -10,7 +10,7 @@ namespace CBuilder.Api.Models
             this.Id = id;
             this.Name = name;
             this.Folders = folders;
-            this.Content= content;
+            this.Content = content;
         }
 
         public Guid Id { get; }

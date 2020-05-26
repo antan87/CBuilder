@@ -1,18 +1,17 @@
 import React from "react";
-import { Col, Container, Row } from "react-bootstrap";
 import DocumentListComponent from "./DocumentListComponent";
 
 export class ProjectDetailComponent extends React.Component<any> {
 
     public render() {
         return (
-            <Container>
-                <Row>
-                    <Col>
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col">
                         <DocumentListComponent solutionId={this.props.match.params.solutionId} projectId={this.props.match.params.id}></DocumentListComponent>
-                    </Col>
-                </Row>
-            </Container >
+                    </div>
+                </div>
+            </div >
         );
     }
 }

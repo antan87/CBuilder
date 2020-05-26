@@ -1,7 +1,7 @@
 import React from "react";
 import { IWorkspace } from "../contracts/interfaces/IWorkspace";
 import ApiManager from "../managers/ApiManager";
-import { Container, Row, Col, ListGroup, ListGroupItem, NavLink } from 'react-bootstrap';
+import { ListGroup, ListGroupItem, NavLink } from 'react-bootstrap';
 
 export class SolutionListComponent extends React.Component<ISolutionListComponentProps, ISolutionListComponentState> {
 
@@ -19,10 +19,10 @@ export class SolutionListComponent extends React.Component<ISolutionListComponen
 
     public render() {
         return (
-            <Container>
+            <div className="container-fluid">
                 <h2>Solutions</h2>
-                <Row>
-                    <Col>
+                <div className="row">
+                    <div className="col">
                         <ListGroup>
                             {this.state.solutions.map((workspace: IWorkspace) => {
                                 return <ListGroupItem key={workspace.solution.id}>
@@ -30,9 +30,9 @@ export class SolutionListComponent extends React.Component<ISolutionListComponen
                                 </ListGroupItem>;
                             })}
                         </ListGroup>
-                    </Col>
-                </Row>
-            </Container >
+                    </div>
+                </div>
+            </div >
         );
     }
 }

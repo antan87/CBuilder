@@ -7,26 +7,25 @@ import NavigationComponent from "./components/NavigationComponent";
 import ProjectDetailComponent from "./components/ProjectDetailComponent";
 import { SolutionDetailComponent } from "./components/SolutionDetailComponent";
 import * as serviceWorker from "./serviceWorker";
-import { Row, Col } from "react-bootstrap";
 
 ReactDOM.render(
   <React.StrictMode>
-    <HashRouter >
-      <Row>
-        <Col>
+    <HashRouter>
+      <div className="row">
+        <div className="col">
           <NavigationComponent></NavigationComponent>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col">
           <Switch>
             <Route path="/loadsolution" component={LoadSolutionComponent} />
             <Route path="/workspaces/:solutionId/projects/:id" component={ProjectDetailComponent} />
             <Route path="/solutions/:id" component={SolutionDetailComponent} />
             <Route path="/" exact component={App} />
           </Switch>
-        </Col>
-      </Row>
+        </div>
+      </div>
     </HashRouter>
   </React.StrictMode >,
   document.getElementById("root"),

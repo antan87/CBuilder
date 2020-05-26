@@ -1,7 +1,6 @@
 import React from "react";
 import { IDocument } from "../contracts/interfaces/IDocument";
 import ApiManager from "../managers/ApiManager";
-import { Container, Row, Col, Form, FormControl, Button, Nav } from "react-bootstrap";
 import { getTree } from "../helpers/DocumentHelper";
 import { ITree } from "../view-models/tree-view/interfaces/ITree";
 import { ITreeNode2 } from "../view-models/tree-view/interfaces/ITreeNode2";
@@ -25,31 +24,26 @@ export class DocumentListComponent extends React.Component<IDocumentListComponen
 
     public render() {
         return (
-            <Container className="document-list">
-                <Row>
-                    <Col>
+            <div className="container-fluid document-list">
+                <div className="row">
+                    <div className="col">
                         <h2>Documents</h2>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col >
-                        <Nav id="navbar-example3" className="navbar navbar-light ">
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col tree-box">
+                        <nav id="navbar-example3" className="navbar navbar-light ">
                             {this.renderTreeNodes(this.state.tree.nodes, 2)}
-                        </Nav>
-                    </Col>
-                    <Col >
-                        <Form>
-                            <FormControl
-                                readOnly
-                                type="text"
-                                rows={this.state.currentText.split(/\r\n|\r|\n/).length}
-                                placeholder={this.state.currentText}
-                                as="textarea" />
-                        </Form>
-
-                    </Col>
-                </Row>
-            </Container >
+                        </nav>
+                    </div>
+                    <div className="col-9">
+                        <form>
+                            <textarea className="form-control" placeholder={this.state.currentText} rows={this.state.currentText.split(/\r\n|\r|\n/).length}>
+                            </textarea>
+                        </form>
+                    </div>
+                </div>
+            </div>
         );
     }
 
@@ -58,11 +52,11 @@ export class DocumentListComponent extends React.Component<IDocumentListComponen
             return [];
         }
 
-        return <Nav className="nav nav-pills flex-column" key={nodes[0].id} >
+        return <nav className="nav nav-pills flex-column" key={nodes[0].id} >
             {nodes.map((item, index) =>
                 this.renderTreeNode(item, spacing)
             )}
-        </Nav>
+        </nav>
 
     }
 
@@ -79,8 +73,7 @@ export class DocumentListComponent extends React.Component<IDocumentListComponen
 
     private renderTreeNode(node: ITreeNode2, spacing: number): any {
         const elements = [];
-        // ss.push(<a key={node.id} className={`nav-link ml-${spacing.toString()} my-1`} onClick={() => this.onTreeItemClicked(node.id)}> {node.name}</a >);
-        elements.push(<Button key={node.id} className={`nav-link ml-${spacing.toString()} my-1`} onClick={() => this.onTreeItemClicked(node.id)}> {node.name}</Button >);
+        elements.push(<button key={node.id} className={`nav-link ml-${spacing.toString()} my-1`} onClick={() => this.onTreeItemClicked(node.id)}> {node.name}</button >);
 
         if (!!node.childs) {
             spacing += 1;
