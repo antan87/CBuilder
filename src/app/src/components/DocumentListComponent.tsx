@@ -1,7 +1,8 @@
 import React from "react";
 import { IDocument } from "../contracts/interfaces/IDocument";
-import ApiManager from "../managers/ApiManager";
+import { IMethodSyntax } from "../contracts/interfaces/IMethodSyntax";
 import { getTree } from "../helpers/DocumentHelper";
+import ApiManager from "../managers/ApiManager";
 import { ITree } from "../view-models/tree-view/interfaces/ITree";
 import { ITreeNode2 } from "../view-models/tree-view/interfaces/ITreeNode2";
 
@@ -9,7 +10,7 @@ export class DocumentListComponent extends React.Component<IDocumentListComponen
 
     constructor(props: IDocumentListComponentProps) {
         super(props);
-        this.state = { documents: [], tree: { nodes: [] }, currentText: '' };
+        this.state = { documents: [], tree: { nodes: [] }, currentDocument: null, isMethodSyntaxExpanded: false };
     }
 
     public async componentDidMount(): Promise<void> {
@@ -36,18 +37,47 @@ export class DocumentListComponent extends React.Component<IDocumentListComponen
                             {this.renderTreeNodes(this.state.tree.nodes, 2)}
                         </nav>
                     </div>
-                    <div className="col-9">
+                    <div className="col-6">
                         <form>
-                            <textarea className="form-control" placeholder={this.state.currentText} rows={this.state.currentText.split(/\r\n|\r|\n/).length}>
+                            <textarea
+                                className="form-control"
+                                placeholder={this.state.currentDocument?.content}
+                                rows={this.state.currentDocument?.content.split(/\r\n|\r|\n/).length}>
                             </textarea>
                         </form>
                     </div>
+                    <div className="col">
+                        <div id="accordion">
+                            <div className="card">
+                                <div className="card-header" id="headingOne">
+                                    <h5 className="mb-0">
+                                        <button
+                                            className="btn btn-link"
+                                            onClick={() => this.onMethodSyntaxPanelClicked()}>
+                                            Methods
+                                        </button>
+                                    </h5>
+                                </div>
+
+                                <div id="collapseOne" className={`collapse ${!!this.state.isMethodSyntaxExpanded ? "show" : ""}`} >
+                                    <div className="card-body">
+                                        <ul className="list-group">
+                                            {this.state.currentDocument?.methods.map((method: IMethodSyntax, index: number) => {
+                                                return <li className="list-group-item" key={index}>{method.identifier}</li>
+                                            })}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </div >
         );
     }
 
     private renderTreeNodes(nodes: ITreeNode2[], spacing: number): any {
+        debugger;
         if (!nodes.length) {
             return [];
         }
@@ -57,23 +87,32 @@ export class DocumentListComponent extends React.Component<IDocumentListComponen
                 this.renderTreeNode(item, spacing)
             )}
         </nav>
-
     }
 
     private onTreeItemClicked(id: string) {
         const foundDocument = this.state.documents.find(item => item.id === id);
         if (!foundDocument) {
-            this.setState({ documents: this.state.documents, tree: this.state.tree, currentText: '' });
+            this.setState({ documents: this.state.documents, tree: this.state.tree, currentDocument: null });
             return;
         }
-        const currentText = foundDocument.content;
-        this.setState({ documents: this.state.documents, tree: this.state.tree, currentText: currentText });
+
+        this.setState({ documents: this.state.documents, tree: this.state.tree, currentDocument: foundDocument });
+
+    }
+
+    private onMethodSyntaxPanelClicked() {
+        const expanded = !this.state.isMethodSyntaxExpanded;
+        this.setState({ documents: this.state.documents, tree: this.state.tree, currentDocument: this.state.currentDocument, isMethodSyntaxExpanded: expanded });
 
     }
 
     private renderTreeNode(node: ITreeNode2, spacing: number): any {
         const elements = [];
-        elements.push(<button key={node.id} className={`nav-link ml-${spacing.toString()} my-1`} onClick={() => this.onTreeItemClicked(node.id)}> {node.name}</button >);
+        elements.push(
+            <button key={node.id}
+                className={`nav-link ml-${spacing.toString()} my-1`}
+                onClick={() => this.onTreeItemClicked(node.id)}> {node.name}
+            </button >);
 
         if (!!node.childs) {
             spacing += 1;
@@ -82,7 +121,6 @@ export class DocumentListComponent extends React.Component<IDocumentListComponen
 
         return elements;
     }
-
 }
 
 export default DocumentListComponent;
@@ -94,7 +132,7 @@ interface IDocumentListComponentProps {
 
 interface IDocumentListComponentState {
     documents: IDocument[];
-    tree: ITree,
-    currentText: string
+    tree: ITree;
+    currentDocument: IDocument | null;
+    isMethodSyntaxExpanded: boolean;
 }
-

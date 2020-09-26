@@ -1,13 +1,13 @@
-import { TreeFolder } from "./TreeFolder";
-import { TreeDocument } from "./TreeDocument";
 import { ITreeRelationGeneric } from "./interfaces/ITreeRelationGeneric";
+import { TreeDocument } from "./TreeDocument";
+import { TreeFolder } from "./TreeFolder";
 
 export class TreeRelationDocument implements ITreeRelationGeneric<TreeFolder, TreeDocument> {
     public parent: TreeFolder | null;
     public node: TreeDocument;
 
-    constructor(_parent: TreeFolder | null, _node: TreeDocument) {
-        this.parent = _parent;
-        this.node = _node;
+    constructor(parent: TreeFolder | null, node: TreeDocument) {
+        this.parent = parent;
+        this.node = node;
     }
 }

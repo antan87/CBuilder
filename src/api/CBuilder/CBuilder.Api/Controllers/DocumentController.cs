@@ -1,8 +1,11 @@
 ﻿using CBuilder.Api.Models;
+using CBuilder.Api.Models.Syntaxes;
 using CBuilder.Api.Repositories;
 using CBuilder.Api.Repositories.Entitites;
+using CBuilder.Roslyn;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
@@ -26,18 +29,21 @@ namespace CBuilder.Api.Controllers
         public async Task<ActionResult> Get(Guid solutionId, Guid projectId)
         {
             var collection = this._repository.GetCollection<WorkspaceEntityCollection>();
-            WorkspaceEntity? workspace = collection.Query((entity) => entity.Solution.Id.Id == solutionId).FirstOrDefault();
+            WorkspaceEntity? workspace = collection.Query((entity) => entity.Solution?.Id.Id == solutionId).FirstOrDefault();
             if (workspace == null)
                 return NotFound();
 
-            Project? project = workspace.Solution.Projects.FirstOrDefault(project => project.Id.Id == projectId);
+            Project? project = workspace.Solution?.Projects.FirstOrDefault(project => project.Id.Id == projectId);
             if (project == null)
                 return NotFound();
 
             IEnumerable<Task<DocumentModel>> tasks = project.Documents.Select(async (document) =>
             {
                 SourceText text = await document.GetTextAsync();
-                return new DocumentModel(document.Id.Id, document.Name, document.Folders, text.ToString());
+                IEnumerable<MethodDeclarationSyntax>? methodSyntaxes = await DocumentHandler.GetSyntaxNodes<MethodDeclarationSyntax>(document);
+                IEnumerable<MethodSyntaxModel>? methods = methodSyntaxes.Select(method => new MethodSyntaxModel(method.Identifier.ValueText));
+
+                return new DocumentModel(document.Id.Id, document.Name, document.Folders, text.ToString(), methods);
             });
 
             await Task.WhenAll(tasks);
