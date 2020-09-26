@@ -18,7 +18,6 @@ export class ProjectListComponent extends React.Component<IProjectListComponentP
         this.setState({ projects });
     }
 
-
     public render() {
         return (
             <div className="container-fluid">
@@ -27,7 +26,8 @@ export class ProjectListComponent extends React.Component<IProjectListComponentP
                     <div className="col">
                         <ListGroup>
                             {this.state.projects.map((project: IProject) => {
-                                return <ListGroupItem key={project.id}>
+                                return <ListGroupItem
+                                    key={project.id}>
                                     <NavLink href={`#/workspaces/${this.props.solutionId}/projects/${project.id}`}>{project.name}</NavLink>
                                 </ListGroupItem>;
                             })}

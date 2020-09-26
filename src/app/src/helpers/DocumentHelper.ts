@@ -14,7 +14,6 @@ export function getTree(documents: IDocument[]): ITree {
     return tree;
 }
 
-
 function constructTree(map: Map<number, ITreeRelation[]>): ITree {
     const array = map.get(0);
     if (!array) {
@@ -22,7 +21,7 @@ function constructTree(map: Map<number, ITreeRelation[]>): ITree {
     }
 
     const tree: ITree = { nodes: [] };
-    let index = 1;
+    const index = 1;
     for (const item of array) {
         const newNode: ITreeNode2 = { id: item.node.id, name: item.node.name, childs: [] };
         handleTreeLevel(newNode, index, map);
@@ -34,14 +33,14 @@ function constructTree(map: Map<number, ITreeRelation[]>): ITree {
 
 function handleTreeLevel(parent: ITreeNode2, index: number, map: Map<number, ITreeRelation[]>) {
     const array = map.get(index);
-
     if (!array) {
         return;
     }
+    const newIndex = ++index;
 
-    for (const item of array?.filter(x => x?.parent?.id === parent.id)) {
+    for (const item of array.filter((x) => x?.parent?.id === parent.id)) {
         const newNode: ITreeNode2 = { id: item.node.id, name: item.node.name, childs: [] };
-        handleTreeLevel(newNode, index++, map);
+        handleTreeLevel(newNode, newIndex, map);
         parent.childs.push(newNode);
     }
 }
@@ -51,24 +50,27 @@ function aggregateTree(documents: IDocument[]): Map<number, ITreeRelation[]> {
     for (const document of documents) {
         let index = 0;
         let folderRelation: TreeRelationFolder | null = null;
-        let parents: string = '';
+        let parents: string = "";
         for (const folder of document.folders) {
-            const folderNode: TreeFolder | null = !!folderRelation ? folderRelation.node : null;
+            const node: TreeFolder | null = !!folderRelation ? folderRelation.node : null;
             parents += folder;
             const id = hash(parents).toString();
-            folderRelation = new TreeRelationFolder(folderNode, new TreeFolder(id, folder));
-            if (!map.has(index) || !map.get(index)?.some(x => x.node?.id === folderRelation?.node.id)) {
-                if (!map.has(index)) {
-                    const nodes: ITreeRelation[] = [folderRelation];
-                    map.set(index, nodes);
-                } else {
+            folderRelation = new TreeRelationFolder(node, new TreeFolder(id, folder));
+            const hasIndex = map.has(index);
+            if (!hasIndex) {
+                const nodes: ITreeRelation[] = [folderRelation];
+                map.set(index, nodes);
+            } else {
+                const folderId = folderRelation?.node.id;
+                const foundFolder = map.get(index)?.some(x => x.node?.id === folderId);
+                if (!foundFolder) {
                     map.get(index)?.push(folderRelation);
                 }
-            } else {
-
             }
+
             index++;
         }
+
         const folderNode: TreeFolder | null = !!folderRelation ? folderRelation.node : null;
         const documentRelation: TreeRelationDocument = new TreeRelationDocument(folderNode, new TreeDocument(document.id, document.name));;
         if (!map.has(index)) {
@@ -81,7 +83,6 @@ function aggregateTree(documents: IDocument[]): Map<number, ITreeRelation[]> {
 
     return map;
 }
-
 
 function hash(stringValue: string): number {
     var hash = 0, i, chr;

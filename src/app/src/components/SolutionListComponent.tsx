@@ -26,7 +26,9 @@ export class SolutionListComponent extends React.Component<ISolutionListComponen
                         <ListGroup>
                             {this.state.solutions.map((workspace: IWorkspace) => {
                                 return <ListGroupItem key={workspace.solution.id}>
-                                    <NavLink href={`#/solutions/${workspace.solution.id}`}>{workspace.solution.name}</NavLink>
+                                    <NavLink
+                                        href={`#/solutions/${workspace.solution.id}`}>{workspace.solution.name}
+                                    </NavLink>
                                 </ListGroupItem>;
                             })}
                         </ListGroup>
